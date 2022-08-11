@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <main class="container">
+        <div class="tab-options">
+            <!-- <button  class="tab-btn tab-btn--active" data-tab="1">
+                London
+            </button>
+            <button class="tab-btn" data-tab="2">
+                Paris
+            </button>
+            <button class="tab-btn" data-tab="3">
+                Barca
+            </button>
+            <button class="tab-btn" data-tab="4">
+                Madrid
+            </button> -->
+        </div>
+
+        <div class="slider">
+
+            <div 
+             class="tab-contents--active  content-text tab-contents--1 slide">
+                <p class="city">London</p>
+                <p class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod corrupti architecto commodi itaque suscipit sint iusto fugiat ad laudantium! Vero! Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur, ad. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi distinctio nihil vel. Praesentium ullam, recusandae consequuntur eos voluptatum cupiditate unde.</p>
+             </div>
+
+            <div class="content-text 
+            tab-contents--2 slide">
+                <p class="city">Paris</p> 
+                <p class="text">22222Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod corrupti architecto commodi itaque suscipit sint iusto fugiat ad laudantium! Vero! Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur, ad. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi distinctio nihil vel. Praesentium ullam, recusandae consequuntur eos voluptatum cupiditate unde.</p> 
+            </div>
+
+            <div class="content-text tab-contents--3 slide">
+                <p class="city">Barca</p>
+                <p class="text">3333Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod corrupti architecto commodi itaque suscipit sint iusto fugiat ad laudantium! Vero! Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur, ad. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi distinctio nihil vel. Praesentium ullam, recusandae consequuntur eos voluptatum cupiditate unde.</p> 
+            </div>
+
+            <div class="content-text tab-contents--4 slide"> 
+                <p class="city">Madrid</p>
+                <p class="text">4444Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod corrupti architecto commodi itaque suscipit sint iusto fugiat ad laudantium! Vero! Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur, ad. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi distinctio nihil vel. Praesentium ullam, recusandae consequuntur eos voluptatum cupiditate unde.</p> 
+            </div>
+        </div>
+
+    </main>
+    
+    <button class="slider__btn slider__btn--left">&larr;</button>
+    <button class="slider__btn slider__btn--right">&rarr;</button>
+
+    <script>
+        const btnContainer = document.querySelector('.tab-options');
+        const btns = document.querySelectorAll('.tab-btn');
+        const content =document.querySelectorAll('.content-text');
+        
+
+        // Sliding
+        const slider = document.querySelector('.slider');
+        const slides = document.querySelectorAll('.slide');
+        const btnRight = document.querySelector('.slider__btn--right');
+        const btnLeft = document.querySelector('.slider__btn--left')
+
+        let CurSlider = 0;
+        const maxSlide = slides.length;
+
+
+        const createBtns = function () {
+            slides.forEach(function (s, i) {
+                // console.log(i)
+                // if (i === 1) {
+                //     i.textcontent === 'Paris'
+                // }
+                btnContainer.insertAdjacentHTML(
+                    'beforeend',
+                    `<button class="tab-btn" data-slide="${i}">${i == 0}</button>`,
+                    // `<button class="tab-btn" data-slide="${i == 1}">Paris</button>`,
+                    // `<button class="tab-btn" data-slide="${i = 2}">Barca</button>`,
+                    // `<button class="tab-btn" data-slide="${i = 3}">Madrid</button>`,
+                    console.log(i)
+                );
+                if (i === 1) {
+                    i.textcontent === 'Paris'
+                }
+            });
+        };
+        createBtns()
+
+        const activateBtn = function (slide) {
+            document.querySelectorAll('.tab-btn').forEach(tab => tab.classList.remove('tab-btn--active'));
+
+            document.querySelector(`.tab-btn[data-slide="${slide}"]`).classList.add('tab-btn--active');
+        };
+        activateBtn(0)
+
+        const goToSlide = function(slide) {
+            slides.forEach((s, i) =>
+            s.style.transform = `translateX(${100 * (i - slide)}%)`,
+        );
+        };
+        goToSlide(0);
+        
+
+        const nextSlide = function(){
+            if (CurSlider === maxSlide - 1){
+                CurSlider = 0;
+            } else CurSlider++;
+
+            goToSlide(CurSlider);
+            activateBtn(CurSlider);
+        };
+
+        const prevSlide = function() {
+            if (CurSlider === 0) {
+                CurSlider = maxSlide - 1;
+            } else CurSlider--;
+
+            goToSlide(CurSlider);
+            activateBtn(CurSlider)
+        };
+
+        btnRight.addEventListener('click', nextSlide);
+        btnLeft.addEventListener('click', prevSlide);
+
+        document.addEventListener('keydown', function(e){
+            // console.log(e)
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') nextSlide();
+        });
+
+        btnContainer.addEventListener('click', function(e){
+            if (e.target.classList.contains('tab-btn')) {
+                const {slide} = e.target.dataset;
+                goToSlide(slide);
+                activateBtn(slide);
+            };
+        });
+    </script>
+</body>
+</html>
