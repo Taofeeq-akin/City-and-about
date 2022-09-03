@@ -109,6 +109,7 @@ body {
 }
 
 .slider {
+    /* display: flex; */
     width: 200rem;
     height: 50rem;
     margin: 0 auto;
